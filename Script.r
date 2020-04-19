@@ -13,6 +13,7 @@ xGrp="Gender"
 yName="Calories"
 fileNameRoot = "Exercise-Ttest-" 
 graphFileType = "eps" 
+RopeMuDiff=c(-0.5,0.5) ; RopeSdDiff=c(-0.5,0.5) ; RopeEff=c(-0.1,0.1)
 
 # Data exploration
 
@@ -41,8 +42,9 @@ source("Jags-Ymet-Xnom2grp-MrobustHet.R")
 
 # Generate the MCMC chain:
 #startTime = proc.time()
-mcmcCoda = genMCMC( data=myData , xName=xGrp , yName=yName , 
-                     numSavedSteps=20000 , saveName=fileNameRoot )
+mcmcCoda = genMCMC( datFrm=myData , yName=yName , xName=xGrp ,
+                    numSavedSteps=50000 , saveName=fileNameRoot )
+
 #stopTime = proc.time()
 #duration = stopTime - startTime
 #show(duration)
@@ -60,10 +62,9 @@ summaryInfo = smryMCMC( mcmcCoda ,
                         saveName=fileNameRoot )
 show(summaryInfo)
 # Display posterior information:
-plotMCMC( mcmcCoda2 , data=myData , xName=xgrp , yName=yName , 
-          compValBeta1=0.0 , ropeBeta1=c(-0.5,0.5) ,
-          pairsPlot=TRUE , showCurve=FALSE ,
-          saveName=fileNameRoot , saveType=graphFileType )
+plotMCMC( mcmcCoda , datFrm=myDataFrame , yName=yName , xName=xName , 
+          RopeMuDiff=RopeMuDiff , RopeSdDiff=RopeSdDiff , RopeEff=RopeEff ,
+          pairsPlot=TRUE , saveName=fileNameRoot , saveType=graphFileType )
 #------------------------------------------------------------------------------- 
 
 #------------------------------------------------------------------------------- 
